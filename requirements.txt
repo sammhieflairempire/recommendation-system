@@ -1,3 +1,9 @@
 streamlit
+pandas
+requests
+gdown
+numpy
+scikit-learn
+
 
 -e .
