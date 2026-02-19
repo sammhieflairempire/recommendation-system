@@ -1,12 +1,17 @@
-import requests
 import os
 import pickle
-import pandas as pd
-import streamlit as st
+import requests
 
-# ----------------------------
-# Helper to download files
-# ----------------------------
+# Folder to store pickles
+if not os.path.exists("artifacts"):
+    os.mkdir("artifacts")
+
+movie_dict_file = "artifacts/movie_dict.pkl"
+similarity_file = "artifacts/similarity.pkl"
+
+movie_dict_id = "1Ua1qEsv0QraXCCZKrQmW18XBNCd-Y1Zf"
+similarity_id = "1cnXhAy8nqRQDtAW4Q4xolc93bYgfwHIj"
+
 def download_file(file_id, output):
     if os.path.exists(output):
         return
@@ -18,29 +23,16 @@ def download_file(file_id, output):
             if chunk:
                 f.write(chunk)
 
-# ----------------------------
-# Download artifacts if missing
-# ----------------------------
-if not os.path.exists("artifacts"):
-    os.mkdir("artifacts")
-
-movie_dict_file = "artifacts/movie_dict.pkl"
-similarity_file = "artifacts/similarity.pkl"
-
-movie_dict_id = "1Ua1qEsv0QraXCCZKrQmW18XBNCd-Y1Zf"
-similarity_id = "1cnXhAy8nqRQDtAW4Q4xolc93bYgfwHIj"
-
 download_file(movie_dict_id, movie_dict_file)
 download_file(similarity_id, similarity_file)
 
-# ----------------------------
-# Load pickle files
-# ----------------------------
+# Load pickles
 with open(movie_dict_file, "rb") as f:
     movies_dict = pickle.load(f)
 
 with open(similarity_file, "rb") as f:
     similarity = pickle.load(f)
+
 
 movies = pd.DataFrame(movies_dict)
 
